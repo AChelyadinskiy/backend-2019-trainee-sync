@@ -1,7 +1,8 @@
 from __future__ import annotations
 from hashlib import sha1
 from django.db import models
-from django.http import HttpResponse, HttpResponseNotFound
+from rest_framework.response import Response
+
 from pitter.models.base import BaseModel
 
 
@@ -51,7 +52,7 @@ class User(BaseModel):
         )
 
     @staticmethod
-    def delete_user(user_id: str) -> HttpResponse:
+    def delete_user(user_id: str) -> Response:
         """
         Удаляет пользователя
         :param user_id: Идентификатор пользователя
@@ -60,9 +61,9 @@ class User(BaseModel):
         try:
             user_to_delete = User.objects.get(id=user_id)
             user_to_delete.delete()
-            dummy = HttpResponse(status=204)
+            dummy = Response(status=204)
         except User.DoesNotExist:
-            dummy = HttpResponseNotFound()
+            dummy = Response(status=404)
         return dummy
 
     @staticmethod
@@ -73,3 +74,11 @@ class User(BaseModel):
         :return:
         """
         return bool(User.objects.filter(login=login).count())
+
+    @staticmethod
+    def get_user(login: str, password: str) -> User:
+        dummy = None
+        for user in User.objects.all():
+            if login == user.login and User.check_password(password, user.password):
+                dummy = user
+        return dummy
