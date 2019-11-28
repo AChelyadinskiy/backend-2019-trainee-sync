@@ -77,6 +77,12 @@ class User(BaseModel):
 
     @staticmethod
     def get_user(login: str, password: str) -> User:
+        """
+        Находит пользователя по логину и паролю
+        :param login: Логин
+        :param password: Пароль
+        :return:
+        """
         dummy = None
         for user in User.objects.all():
             if login == user.login and User.check_password(password, user.password):

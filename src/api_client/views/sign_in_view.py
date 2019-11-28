@@ -19,7 +19,6 @@ class SignInView(APIView):
         tags=['Pitter: SignIn'],
         request_body=UserPostRequest,
         responses={
-            200: exceptions.ExceptionResponse,
             401: exceptions.ExceptionResponse,
             404: exceptions.ExceptionResponse,
             500: exceptions.ExceptionResponse,
@@ -28,6 +27,11 @@ class SignInView(APIView):
         operation_description='Авторизация пользователя в сервисе Pitter',
     )
     def post(cls, request) -> Response:
+        """
+        Дает токен авторизации пользователю
+        :param request:
+        :return:
+        """
         login = request.data['login']
         password = request.data['password']
         user = User.get_user(login=login, password=password)
@@ -38,7 +42,8 @@ class SignInView(APIView):
             }
             token = create_token(payload)
             user_details = {'login': login, 'token': token}
-            return Response(user_details, status=200)
+            dummy = Response(user_details, status=200)
         else:
             res = {'error': 'Пользователя с таким логином или паролем не существует'}
-            return Response(res, status=403)
+            dummy = Response(res, status=403)
+        return dummy

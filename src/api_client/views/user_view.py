@@ -8,7 +8,7 @@ from api_client.validation_serializers.user_serializers import UserPostRequest, 
 from pitter import exceptions
 from pitter.decorators import request_post_serializer
 from pitter.models.user import User
-from pitter.utils.auth import authorization
+from pitter.utils.auth import access_token_required
 
 
 class UserView(APIView):
@@ -18,7 +18,6 @@ class UserView(APIView):
         tags=['Pitter: add_user'],
         request_body=UserPostRequest,
         responses={
-            200: exceptions.ExceptionResponse,
             401: exceptions.ExceptionResponse,
             404: exceptions.ExceptionResponse,
             500: exceptions.ExceptionResponse,
@@ -26,7 +25,6 @@ class UserView(APIView):
         operation_summary='Добавление нового пользователя',
         operation_description='Добавление нового пользователя в сервисе Pitter',
     )
-    @authorization
     def post(cls, request) -> Response:
         """
         Создает нового пользователя
@@ -56,7 +54,6 @@ class UserView(APIView):
         tags=['Pitter: delete_user'],
         request_body=UserDeleteRequest,
         responses={
-            200: exceptions.ExceptionResponse,
             401: exceptions.ExceptionResponse,
             404: exceptions.ExceptionResponse,
             500: exceptions.ExceptionResponse,
@@ -64,6 +61,7 @@ class UserView(APIView):
         operation_summary='Удаление пользователя',
         operation_description='Удаление пользователя в сервисе Pitter',
     )
+    @access_token_required
     def delete(cls, request) -> Response:
         """
         Удаляет пользователя из БД

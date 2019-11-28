@@ -37,4 +37,4 @@ class TicketMobileView(APIView):
         user_comment: str = request.data['userComment']
         fake_id: str = str(uuid4())
 
-        return dict(id=fake_id, message=message, userComment=user_comment,)
+        return dict(id=fake_id, message=message, userComment=user_comment, )

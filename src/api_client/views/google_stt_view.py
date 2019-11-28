@@ -1,5 +1,7 @@
+from base64 import b64encode
 from typing import Dict
 
+import requests
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
@@ -9,7 +11,9 @@ from api_client.validation_serializers.google_stt_serializer import SpeechToText
 from pitter import exceptions
 from pitter.decorators import request_post_serializer
 from pitter.decorators import response_dict_serializer
-from pitter.integrations.google_stt import SpeechToText
+from pitter.exceptions import ValidationError
+from pitter.settings import GOOGLE_STT_API_URL
+from pitter.utils.auth import access_token_required
 
 
 class SpeechToTextView(APIView):
@@ -37,6 +41,11 @@ class SpeechToTextView(APIView):
         :param request:
         :return:
         """
-        result: str = SpeechToText.decode(request.data['audio_file'].read())
-
+        audio_file = b64encode(request.data['audio_file'].read())
+        request_to_google = {'speech': audio_file}
+        request = requests.post(GOOGLE_STT_API_URL, request_to_google)
+        try:
+            result = request.json()['result']
+        except KeyError:
+            raise ValidationError(message="Неподдерживаемый формат аудиофайла")
         return dict(result=result, )
