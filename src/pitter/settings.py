@@ -1,10 +1,15 @@
 import os
 from typing import List
+import keys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cru)q9q-!=#ip!)(i=rawgbjdfxiyrm+znk05iz=5p*w7r9(yh'
-GOOGLE_STT_API_KEY: str = os.environ["GOOGLE_STT_API_KEY"]
-GOOGLE_STT_API_URL: str = "https://speech.googleapis.com/v1/speech:recognize?key={}"
+
+GOOGLE_STT_API_URL = "http://localhost:8118/api/pitter/v1/speechtotext"
+
+RSA_PRIVATE_KEY = keys.private
+RSA_PUBLIC_KEY = keys.public
+TOKEN_LIFE_TIME_SEC = 1500
 
 DEBUG: bool = bool(int(os.getenv('DEBUG', 1)))  # pylint: disable=invalid-envvar-default
 
@@ -95,7 +100,6 @@ STATIC_ROOT = '/static'
 # DRF
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
     'EXCEPTION_HANDLER': 'pitter.middleware.custom_exception_handler',
 }
 
