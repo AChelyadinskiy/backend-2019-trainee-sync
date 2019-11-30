@@ -10,5 +10,5 @@ class UserPostResponse(serializers.Serializer):
     id = serializers.CharField(required=True, label='id пользователя')
 
 
-class UserDeleteRequest(serializers.Serializer):
-    id = serializers.CharField(required=True, label='id пользователя')
+class UserDeleteResponse(serializers.Serializer):
+    deleted_id = serializers.CharField(required=True, label='id пользователя')

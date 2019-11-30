@@ -1,7 +1,6 @@
 from __future__ import annotations
 from hashlib import sha1
 from django.db import models
-from rest_framework.response import Response
 
 from pitter.models.base import BaseModel
 
@@ -52,31 +51,25 @@ class User(BaseModel):
         )
 
     @staticmethod
-    def delete_user(user_id: str) -> Response:
+    def get_user(login: str = None, password: str = None, user_id: str = None) -> User:
         """
-        Удаляет пользователя
+        Находит пользователя по логину или по id или по логину и паролю
         :param user_id: Идентификатор пользователя
-        :return:
-        """
-        try:
-            user_to_delete = User.objects.get(id=user_id)
-            user_to_delete.delete()
-            dummy = Response(status=204)
-        except User.DoesNotExist:
-            dummy = Response(status=404)
-        return dummy
-
-    @staticmethod
-    def get_user(login: str, password: str) -> User:
-        """
-        Находит пользователя по логину и паролю
         :param login: Логин
         :param password: Пароль
         :return:
         """
-        dummy = None
-        for user in User.objects.all():
-            if login == user.login and User.check_password(password, user.password):
-                dummy = user
-                break
-        return dummy
+        user = None
+        if login:
+            try:
+                user = User.objects.get(login=login)
+            except User.DoesNotExist:
+                user = None
+            if user and password:
+                user = user if User.check_password(password, user.password) else None
+        elif user_id:
+            try:
+                user = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                user = None
+        return user

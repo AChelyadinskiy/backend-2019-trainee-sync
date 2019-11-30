@@ -16,6 +16,7 @@ API_V1_URLS = [
     path('mobile/', include(('api_client.urls', 'pitter_client'), namespace='pitter_client')),
     path('google_stt', views.SpeechToTextView.as_view(), name='google_stt'),
     path('user', views.UserView.as_view(), name='user'),
+    path('user/<str:user_id>', views.UserDeleteView().as_view(), name='delete_user'),
     path('SignIn', views.SignInView.as_view(), name='SignIn'),
 ]
 
