@@ -6,5 +6,9 @@ class UserPostRequest(serializers.Serializer):
     password = serializers.CharField(required=True, label='Пароль', max_length=256)
 
 
+class UserPostResponse(serializers.Serializer):
+    id = serializers.CharField(required=True, label='id пользователя')
+
+
 class UserDeleteRequest(serializers.Serializer):
     id = serializers.CharField(required=True, label='id пользователя')

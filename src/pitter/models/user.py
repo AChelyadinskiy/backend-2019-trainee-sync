@@ -67,15 +67,6 @@ class User(BaseModel):
         return dummy
 
     @staticmethod
-    def check_duplicate(login: str) -> bool:
-        """
-        Проверяет наличие дубликатов по логину в БД
-        :param login: Логин пользователя
-        :return:
-        """
-        return bool(User.objects.filter(login=login).count())
-
-    @staticmethod
     def get_user(login: str, password: str) -> User:
         """
         Находит пользователя по логину и паролю
@@ -87,4 +78,5 @@ class User(BaseModel):
         for user in User.objects.all():
             if login == user.login and User.check_password(password, user.password):
                 dummy = user
+                break
         return dummy
