@@ -9,6 +9,7 @@ from api_client.validation_serializers.user_serializers import UserPostRequest, 
 from pitter import exceptions
 from pitter.decorators import request_post_serializer, response_dict_serializer
 from pitter.models.user import User
+from pitter.utils.auth import access_token_required
 
 
 class UserView(APIView):
@@ -63,6 +64,7 @@ class UserDeleteView(APIView):
         operation_summary='Удаление пользователя',
         operation_description='Удаление пользователя в сервисе Pitter',
     )
+    @access_token_required
     def delete(cls, request, user_id) -> Dict[str, str]:
         """
         Удаляет пользователя по id

@@ -35,6 +35,7 @@ class SpeechToTextView(APIView):
         operation_summary='Преобразование речи в текст',
         operation_description='Преобразование аудиофайла с речью в текст',
     )
+    @access_token_required
     def post(cls, request) -> Dict[str, str]:
         """
         Преобразование речи в текст

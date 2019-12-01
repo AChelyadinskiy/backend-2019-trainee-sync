@@ -38,7 +38,7 @@ class SignInView(APIView):
         if user:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=TOKEN_LIFE_TIME_SEC),
-                'id': user.id
+                'user_id': user.id
             }
             token = create_token(payload)
             user_details = {'login': login, 'token': token}

@@ -91,3 +91,42 @@ class UserDuplicateError(PitterException):
         self.title = title
         self.payload = payload
         super().__init__(detail, exception_code, self.status_code)
+
+
+class InvalidToken(PitterException):
+    default_detail = 'Неверный токен авторизации'
+
+    def __init__(self, message=None, title=None, payload=None, status_code=None):
+        detail = message if message else self.default_detail
+        exception_code = self.__class__.__name__
+        self.default_detail = message if message else self.default_detail
+        self.status_code = status_code if status_code else 401
+        self.title = title
+        self.payload = payload
+        super().__init__(detail, exception_code, self.status_code)
+
+
+class ExpiredToken(PitterException):
+    default_detail = 'Токен авторизации просрочен'
+
+    def __init__(self, message=None, title=None, payload=None, status_code=None):
+        detail = message if message else self.default_detail
+        exception_code = self.__class__.__name__
+        self.default_detail = message if message else self.default_detail
+        self.status_code = status_code if status_code else 401
+        self.title = title
+        self.payload = payload
+        super().__init__(detail, exception_code, self.status_code)
+
+
+class Forbidden(PitterException):
+    default_detail = 'Доступ запрещен'
+
+    def __init__(self, message=None, title=None, payload=None, status_code=None):
+        detail = message if message else self.default_detail
+        exception_code = self.__class__.__name__
+        self.default_detail = message if message else self.default_detail
+        self.status_code = status_code if status_code else 403
+        self.title = title
+        self.payload = payload
+        super().__init__(detail, exception_code, self.status_code)

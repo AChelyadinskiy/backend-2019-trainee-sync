@@ -37,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pitter.middleware.ErrorHandlerMiddleware',
+    'pitter.middleware.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'pitter.urls'
