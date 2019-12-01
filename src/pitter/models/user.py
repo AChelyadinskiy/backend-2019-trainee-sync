@@ -1,8 +1,8 @@
 from __future__ import annotations
-from hashlib import sha1
 from django.db import models
 
 from pitter.models.base import BaseModel
+from pitter.utils.password import gen_password, check_password
 
 
 class User(BaseModel):
@@ -12,28 +12,6 @@ class User(BaseModel):
     profile = models.CharField(max_length=256, blank=True)
     email = models.CharField(max_length=256, blank=True)
     email_notification = models.BooleanField(default=False)
-
-    @staticmethod
-    def gen_password(password: str, salt: str) -> str:
-        """
-        Шифрует пароль с солью
-        :param password: Пароль
-        :param salt: Соль
-        :return:
-        """
-        hashed_password = sha1((password + salt).encode()).hexdigest()
-        return '%s$%s' % (salt, hashed_password)
-
-    @staticmethod
-    def check_password(raw_password, enc_password):
-        """
-        Проверяет достоверность пароля
-        :param raw_password: Пароль
-        :param enc_password: Зашифрованный пароль
-        :return:
-        """
-        salt, hsh = enc_password.split('$')
-        return hsh == sha1((raw_password + salt).encode()).hexdigest()
 
     @staticmethod
     def create_user(login: str, password: str, salt: str) -> User:
@@ -47,7 +25,7 @@ class User(BaseModel):
         return User.objects.create(
             login=login,
             salt=salt,
-            password=User.gen_password(password, salt),
+            password=gen_password(password, salt),
         )
 
     @staticmethod
@@ -66,7 +44,7 @@ class User(BaseModel):
             except User.DoesNotExist:
                 user = None
             if user and password:
-                user = user if User.check_password(password, user.password) else None
+                user = user if check_password(password, user.password) else None
         elif user_id:
             try:
                 user = User.objects.get(id=user_id)

@@ -15,8 +15,9 @@ SchemaView = get_schema_view(
 API_V1_URLS = [
     path('mobile/', include(('api_client.urls', 'pitter_client'), namespace='pitter_client')),
     path('google_stt', views.SpeechToTextView.as_view(), name='google_stt'),
-    path('user', views.UserView.as_view(), name='user'),
-    path('user/<str:user_id>', views.UserDeleteView().as_view(), name='delete_user'),
+    path('user/update', views.UserPatchView.as_view(), name='patch_user'),
+    path('user/delete', views.UserDeleteView().as_view(), name='delete_user'),
+    path('user/create', views.UserCreateView.as_view(), name='create_user'),
     path('SignIn', views.SignInView.as_view(), name='SignIn'),
 ]
 

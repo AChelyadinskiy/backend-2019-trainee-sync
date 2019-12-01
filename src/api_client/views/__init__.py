@@ -2,13 +2,14 @@ from typing import Sequence
 
 from .ticket import TicketMobileView
 from .google_stt_view import SpeechToTextView
-from .user_view import UserView, UserDeleteView
+from .user_view import UserCreateView, UserDeleteView, UserPatchView
 from .sign_in_view import SignInView
 
 __all__: Sequence[str] = [
     'TicketMobileView',
     'SpeechToTextView',
-    'UserView',
+    'UserCreateView',
     'SignInView',
-    'UserDeleteView'
+    'UserDeleteView',
+    'UserPatchView',
 ]
