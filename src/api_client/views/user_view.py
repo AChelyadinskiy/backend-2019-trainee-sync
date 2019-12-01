@@ -14,7 +14,7 @@ from pitter.utils.auth import access_token_required
 from pitter.utils.password import gen_password
 
 
-class UserCreateView(APIView):
+class UserView(APIView):
     @classmethod
     @request_post_serializer(UserPostRequest)
     @response_dict_serializer(UserPostResponse)
@@ -52,7 +52,7 @@ class UserCreateView(APIView):
         return dict(id=res.id, )
 
 
-class UserDeleteView(APIView):
+
     @classmethod
     @response_dict_serializer(UserDeleteResponse)
     @swagger_auto_schema(
@@ -82,7 +82,6 @@ class UserDeleteView(APIView):
         return dict(deleted_id=user_id, )
 
 
-class UserPatchView(APIView):
     @classmethod
     @request_post_serializer(UserPatchRequest)
     @response_dict_serializer(UserPatchResponse)
