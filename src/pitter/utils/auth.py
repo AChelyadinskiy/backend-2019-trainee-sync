@@ -2,7 +2,7 @@ import jwt
 from pitter.settings import RSA_PRIVATE_KEY
 
 
-def create_token(payload: dict) -> str:
+def create_token(payload: dict) -> bytes:
     """
     Создает токен авторизации
     :param payload: данные
