@@ -12,6 +12,7 @@ class User(BaseModel):
     profile = models.CharField(max_length=256, blank=True)
     email = models.CharField(max_length=256, blank=True)
     email_notification = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @staticmethod
     def create_user(login: str, password: str, salt: str) -> User:

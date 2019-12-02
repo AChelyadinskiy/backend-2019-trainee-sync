@@ -16,7 +16,7 @@ class UserSearchView(APIView):
     @request_post_serializer(UserSearchPostRequest)
     @response_dict_serializer(UserSearchPostResponse)
     @swagger_auto_schema(
-        tags=['Pitter: Search_user'],
+        tags=['Pitter: User_search'],
         request_body=UserSearchPostRequest,
         responses={
             200: UserSearchPostResponse,

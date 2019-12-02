@@ -17,11 +17,11 @@ def access_token_required(func):
     :param func:
     :return:
     """
-
-    def wrapper(cls, request):
+    def wrapper(cls, request, pitt_id=None):
         exception = getattr(request, 'exception', None)
         if exception:
             raise exception
-        return func(cls, request)
+        res = func(cls, request, pitt_id) if pitt_id else func(cls, request)
+        return res
 
     return wrapper
