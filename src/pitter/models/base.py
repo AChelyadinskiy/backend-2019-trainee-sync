@@ -14,7 +14,6 @@ def default_uuid_id() -> str:
 class BaseModel(models.Model):
     id = models.CharField(default=default_uuid_id, primary_key=True, editable=False, max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True

@@ -14,9 +14,11 @@ SchemaView = get_schema_view(
 
 API_V1_URLS = [
     path('mobile/', include(('api_client.urls', 'pitter_client'), namespace='pitter_client')),
-    path('google_stt', views.SpeechToTextView.as_view(), name='google_stt'),
+    path('pitt', views.PittView.as_view(), name='pitt'),
+    path('pitt/<str:pitt_id>', views.PittDeleteView.as_view(), name='delete_pitt'),
     path('user', views.UserView.as_view(), name='user'),
     path('SignIn', views.SignInView.as_view(), name='SignIn'),
+    path('search', views.UserSearchView.as_view(), name='search_user'),
 ]
 
 urlpatterns = [  # pylint: disable=invalid-name

@@ -9,7 +9,7 @@ GOOGLE_STT_API_URL = "http://localhost:8118/api/pitter/v1/speechtotext"
 
 RSA_PRIVATE_KEY = keys.private
 RSA_PUBLIC_KEY = keys.public
-TOKEN_LIFE_TIME_SEC = 1500
+TOKEN_LIFE_TIME_SEC = 15000
 
 DEBUG: bool = bool(int(os.getenv('DEBUG', 1)))  # pylint: disable=invalid-envvar-default
 
@@ -37,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pitter.middleware.ErrorHandlerMiddleware',
+    'pitter.middleware.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'pitter.urls'

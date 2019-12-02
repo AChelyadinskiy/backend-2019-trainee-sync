@@ -1,6 +1,3 @@
-#Google SpeechToText
-### To use this module you need to add your GOOGLE_STT_API_KEY in local.env
-
 # Pitter Sync
 
 ### Sync service for Pitter project
