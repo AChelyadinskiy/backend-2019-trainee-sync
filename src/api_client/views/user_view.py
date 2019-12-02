@@ -51,8 +51,6 @@ class UserView(APIView):
         )
         return dict(id=res.id, )
 
-
-
     @classmethod
     @response_dict_serializer(UserDeleteResponse)
     @swagger_auto_schema(
@@ -80,7 +78,6 @@ class UserView(APIView):
             raise exceptions.UserNotFound
         user.delete()
         return dict(deleted_id=user_id, )
-
 
     @classmethod
     @request_post_serializer(UserPatchRequest)

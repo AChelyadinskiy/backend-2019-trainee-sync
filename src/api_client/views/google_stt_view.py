@@ -23,7 +23,7 @@ class SpeechToTextView(APIView):
     @request_post_serializer(SpeechToTextPostRequest)
     @response_dict_serializer(SpeechToTextPostResponse)
     @swagger_auto_schema(
-        tags=["Pitter: recognizer"],
+        tags=["Pitter: Recognizer"],
         request_body=SpeechToTextPostRequest,
         responses={
             200: SpeechToTextPostResponse,

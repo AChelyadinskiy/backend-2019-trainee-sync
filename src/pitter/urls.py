@@ -17,6 +17,7 @@ API_V1_URLS = [
     path('google_stt', views.SpeechToTextView.as_view(), name='google_stt'),
     path('user', views.UserView.as_view(), name='user'),
     path('SignIn', views.SignInView.as_view(), name='SignIn'),
+    path('search', views.UserSearchView.as_view(), name='search_user'),
 ]
 
 urlpatterns = [  # pylint: disable=invalid-name
