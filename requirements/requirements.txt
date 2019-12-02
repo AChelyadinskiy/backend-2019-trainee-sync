@@ -3,3 +3,6 @@ djangorestframework==3.10.3
 drf-yasg==1.17.0
 PyYAML==5.1.2
 psycopg2-binary==2.8.4
+PyJWT==1.7.1
+requests==2.22.0
+cryptography==2.8
