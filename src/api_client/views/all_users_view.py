@@ -1,6 +1,8 @@
 from typing import Dict
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from drf_yasg import openapi
+from drf_yasg.openapi import Parameter
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
@@ -10,12 +12,20 @@ from pitter import exceptions
 from pitter.models.user import User
 from pitter.utils.auth import access_token_required
 
+USERS_QUERY_PARAM = Parameter(
+    in_=openapi.IN_QUERY,
+    name='page',
+    required=True,
+    type=openapi.TYPE_INTEGER,
+)
+
 
 class AllUsersView(APIView):
     @classmethod
     @response_dict_serializer(AllUsersResponse)
     @swagger_auto_schema(
         tags=['Pitter: All users'],
+        manual_parameters=[USERS_QUERY_PARAM],
         responses={
             200: AllUsersResponse,
             401: exceptions.ExceptionResponse,
@@ -25,7 +35,7 @@ class AllUsersView(APIView):
         operation_summary='Показывает список всех пользователей',
         operation_description='Показывает список всех пользователей в сервисе Pitter',
     )
-    # @access_token_required
+    @access_token_required
     def get(cls, request) -> Dict[str, str]:
         res = {}
         all_users = User.objects.all().order_by('login')

@@ -18,7 +18,7 @@ API_V1_URLS = [
     path('pitt/<str:pitt_id>', views.PittDeleteView.as_view(), name='delete_pitt'),
     path('user', views.UserView.as_view(), name='user'),
     path('users', views.AllUsersView.as_view(), name='users'),
-    path('SignIn', views.SignInView.as_view(), name='SignIn'),
+    path('auth', views.AuthView.as_view(), name='auth'),
     path('search', views.UserSearchView.as_view(), name='search_user'),
 ]
 
