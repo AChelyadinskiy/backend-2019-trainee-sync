@@ -41,6 +41,7 @@ class ErrorHandlerMiddleware:
                 ),
                 status=500,
             )
+        return None
 
 
 def custom_exception_handler(exception, context):
