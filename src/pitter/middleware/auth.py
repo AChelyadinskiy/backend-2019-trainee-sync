@@ -1,6 +1,4 @@
-from typing import Optional
 import jwt
-from django.http import JsonResponse
 from pitter.exceptions import InvalidToken, Forbidden, ExpiredToken
 from pitter.settings import RSA_PUBLIC_KEY
 
@@ -30,15 +28,6 @@ class AuthMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        response = self.get_response(self.process_response(request))
-        return response
-
-    def process_response(self, request) -> Optional[JsonResponse]:
-        """
-        Проверяет токен в запросе
-        :param request:
-        :return:
-        """
         auth = request.headers.get('Authorization', '').split()
         if not auth:
             setattr(request, 'exception', Forbidden)
@@ -52,4 +41,5 @@ class AuthMiddleware:
                 setattr(request, 'user_id', data)
             else:
                 setattr(request, 'exception', data)
-        return request
+        response = self.get_response(request)
+        return response
