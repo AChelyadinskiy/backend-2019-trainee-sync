@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256,
+                                        primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('login', models.CharField(max_length=256)),
                 ('password', models.CharField(max_length=256)),
@@ -33,7 +34,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subscription',
             fields=[
-                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256,
+                                        primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('follower_id', models.CharField(max_length=256)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pitter.User')),
@@ -45,7 +47,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Pitt',
             fields=[
-                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=pitter.models.base.default_uuid_id, editable=False, max_length=256,
+                                        primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('audio_file', models.FileField(upload_to='uploads/')),
                 ('audio_file_transcription', models.CharField(max_length=256)),

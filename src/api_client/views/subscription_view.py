@@ -30,6 +30,11 @@ class SubscriptionView(APIView):
     )
     @access_token_required
     def post(cls, request) -> Dict[str, str]:
+        """
+        Запрос на подписку/удаление подписки
+        :param request:
+        :return:
+        """
         user_id = getattr(request, 'user_id', None)
         user = User.get_user(user_id=user_id)
         follower_id = request.data['follower_id']

@@ -42,5 +42,11 @@ class Pitt(BaseModel):
 
 
 @receiver(pre_delete, sender=Pitt)
-def delete_pitt(instance, **kwargs):
+def delete_audio_file(instance, **kwargs):  # pylint: disable=unused-argument
+    """
+    Физическое удаление аудиофайлов
+    :param instance:
+    :param kwargs:
+    :return:
+    """
     instance.audio_file.delete(False)

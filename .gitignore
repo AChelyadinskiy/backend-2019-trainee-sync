@@ -183,4 +183,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .env
-local.env
+.local.env
+src/uploads/*

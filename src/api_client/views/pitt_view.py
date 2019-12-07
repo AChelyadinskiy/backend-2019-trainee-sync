@@ -1,4 +1,3 @@
-import os
 from base64 import b64encode
 from typing import Dict
 
@@ -15,7 +14,7 @@ from pitter.decorators import response_dict_serializer
 from pitter.exceptions import ValidationError, Forbidden, PittNotFound
 from pitter.models.pitt import Pitt
 from pitter.models.user import User
-from pitter.settings import GOOGLE_STT_API_URL, BASE_DIR
+from pitter.settings import GOOGLE_STT_API_URL
 from pitter.utils.auth import access_token_required
 
 
@@ -80,7 +79,7 @@ class PittDeleteView(APIView):
         operation_description='Удаление питта в сервисе Pitter',
     )
     @access_token_required
-    def delete(cls, request, pitt_id) -> Dict[str, str]:
+    def delete(cls, request, pitt_id) -> Dict[str, str]:  # pylint: disable=unused-argument
         """
         Удаление питта
         :param request:
@@ -90,7 +89,5 @@ class PittDeleteView(APIView):
         pitt = Pitt.get_pitt(pitt_id)
         if not pitt:
             raise PittNotFound
-        # storage, path = pitt.audio_file.storage, pitt.audio_file.path
-        # storage.delete(path)
         pitt.delete()
         return dict(deleted_id=pitt_id, )
