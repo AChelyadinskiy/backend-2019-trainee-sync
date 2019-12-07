@@ -17,7 +17,7 @@ class SubscriptionView(APIView):
     @request_post_serializer(SubscriptionPostRequest)
     @response_dict_serializer(SubscriptionPostResponse)
     @swagger_auto_schema(
-        tags=['Pitter: Follower'],
+        tags=['Pitter: Subscription'],
         request_body=SubscriptionPostRequest,
         responses={
             200: SubscriptionPostResponse,

@@ -18,7 +18,7 @@ class AuthView(APIView):
     @request_post_serializer(AuthPostRequest)
     @response_dict_serializer(AuthPostResponse)
     @swagger_auto_schema(
-        tags=['Pitter: SignIn'],
+        tags=['Pitter: Authorization'],
         request_body=AuthPostRequest,
         responses={
             200: AuthPostResponse,
