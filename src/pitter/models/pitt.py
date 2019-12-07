@@ -1,24 +1,25 @@
 from __future__ import annotations
 from django.db import models
 from pitter.models.base import BaseModel
+from pitter.models.user import User
 
 
 class Pitt(BaseModel):
-    user_id = models.CharField(max_length=256)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     audio_file = models.FileField(upload_to='uploads/')
     audio_file_transcription = models.CharField(max_length=256)
 
     @staticmethod
-    def create_pitt(user_id: str, audio_file: str, audio_file_transcription: str) -> Pitt:
+    def create_pitt(user: User, audio_file: str, audio_file_transcription: str) -> Pitt:
         """
         Создает новый питт
-        :param user_id: Идентификатор ользователя
+        :param user: Владелец питта
         :param audio_file: Путь к аудиофайлу
         :param audio_file_transcription: Распознанный текст
         :return:
         """
         return Pitt.objects.create(
-            user_id=user_id,
+            user=user,
             audio_file=audio_file,
             audio_file_transcription=audio_file_transcription,
         )
