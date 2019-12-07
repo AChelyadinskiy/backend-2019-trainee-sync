@@ -7,7 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
 from api_client.validation_serializers.all_users_serializers import AllUsersResponse, UsersData
-from pitter.decorators import response_dict_serializer, request_post_serializer
+from pitter.decorators import response_dict_serializer
 from pitter import exceptions
 from pitter.models.user import User
 from pitter.utils.auth import access_token_required
@@ -18,6 +18,8 @@ USERS_QUERY_PARAM = Parameter(
     required=True,
     type=openapi.TYPE_INTEGER,
 )
+
+USERS_ON_PAGE = 5
 
 
 class AllUsersView(APIView):
@@ -32,14 +34,19 @@ class AllUsersView(APIView):
             404: exceptions.ExceptionResponse,
             500: exceptions.ExceptionResponse,
         },
-        operation_summary='Показывает список всех пользователей',
-        operation_description='Показывает список всех пользователей в сервисе Pitter',
+        operation_summary='Список всех пользователей',
+        operation_description='Список всех пользователей в сервисе Pitter',
     )
     @access_token_required
     def get(cls, request) -> Dict[str, str]:
+        """
+        Показывает список всех пользователей постранично
+        :param request:
+        :return:
+        """
         res = {}
         all_users = User.objects.all().order_by('login')
-        current_page = Paginator(all_users, 2)
+        current_page = Paginator(all_users, USERS_ON_PAGE)
         page = request.GET.get('page')
         try:
             res['users'] = UsersData(current_page.page(page).object_list, many=True).data

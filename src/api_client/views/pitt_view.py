@@ -56,7 +56,7 @@ class PittView(APIView):
         if not user:
             raise Forbidden(message="Вы не авторизованы")
         pitt = Pitt.create_pitt(
-            user_id=user_id,
+            user=user,
             audio_file=request.data['audio_file'],
             audio_file_transcription=result,
         )

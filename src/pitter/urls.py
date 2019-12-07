@@ -20,6 +20,7 @@ API_V1_URLS = [
     path('users', views.AllUsersView.as_view(), name='users'),
     path('auth', views.AuthView.as_view(), name='auth'),
     path('search', views.UserSearchView.as_view(), name='search_user'),
+    path('subscribe', views.SubscriptionView.as_view(), name='subscription'),
 ]
 
 urlpatterns = [  # pylint: disable=invalid-name
