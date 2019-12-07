@@ -13,7 +13,6 @@ SchemaView = get_schema_view(
 )
 
 API_V1_URLS = [
-    path('mobile/', include(('api_client.urls', 'pitter_client'), namespace='pitter_client')),
     path('pitt', views.PittView.as_view(), name='pitt'),
     path('pitt/<str:pitt_id>', views.PittDeleteView.as_view(), name='delete_pitt'),
     path('user', views.UserView.as_view(), name='user'),
