@@ -1,5 +1,8 @@
 from __future__ import annotations
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+
 from pitter.models.base import BaseModel
 from pitter.models.user import User
 
@@ -36,3 +39,8 @@ class Pitt(BaseModel):
         except Pitt.DoesNotExist:
             res = None
         return res
+
+
+@receiver(pre_delete, sender=Pitt)
+def delete_pitt(instance, **kwargs):
+    instance.audio_file.delete(False)
