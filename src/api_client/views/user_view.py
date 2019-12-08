@@ -1,17 +1,40 @@
 import datetime
 from typing import Dict
 from uuid import uuid4
+
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.utils import timezone
+from drf_yasg import openapi
+from drf_yasg.openapi import Parameter
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
+from api_client.validation_serializers.feed_serializers import PittsData
 from api_client.validation_serializers.user_serializers import UserPostRequest, UserPostResponse, \
-    UserDeleteResponse, UserPatchResponse, UserPatchRequest
+    UserDeleteResponse, UserPatchResponse, UserPatchRequest, UserGetResponse
 from pitter import exceptions
 from pitter.decorators import request_post_serializer, response_dict_serializer
+from pitter.models.pitt import Pitt
+from pitter.models.subscription import Subscription
 from pitter.models.user import User
 from pitter.utils.auth import access_token_required
 from pitter.utils.password import gen_password
+
+PITTS_PAGE_PARAM = Parameter(
+    in_=openapi.IN_QUERY,
+    name='page',
+    required=True,
+    type=openapi.TYPE_INTEGER,
+)
+
+USER_ID_PARAM = Parameter(
+    in_=openapi.IN_QUERY,
+    name='id',
+    required=True,
+    type=openapi.TYPE_STRING,
+)
+
+PITTS_ON_PAGE = 25
 
 
 class UserView(APIView):
@@ -109,3 +132,44 @@ class UserView(APIView):
         update_info['updated_at'] = timezone.now() + datetime.timedelta(hours=2)
         User.objects.filter(id=user_id).update(**update_info)
         return dict(updated_fields=str(list(update_info)))
+
+    @classmethod
+    @response_dict_serializer(UserGetResponse)
+    @swagger_auto_schema(
+        tags=['Pitter: User'],
+        manual_parameters=[USER_ID_PARAM, PITTS_PAGE_PARAM],
+        responses={
+            200: UserGetResponse,
+            401: exceptions.ExceptionResponse,
+            404: exceptions.ExceptionResponse,
+            500: exceptions.ExceptionResponse,
+        },
+        operation_summary='Страница пользователя с питтами',
+        operation_description='Страница пользователя с питтами в сервисе Pitter',
+    )
+    @access_token_required
+    def get(cls, request) -> Dict[str, str]:
+        """
+        Показывает страницу пользователя
+        :param request:
+        :return:
+        """
+        res = {}
+        logged_user_id = getattr(request, 'user_id', None)
+        logged_user = User.get_user(user_id=logged_user_id)
+        user_id = request.GET.get('id')
+        user = User.get_user(user_id=user_id)
+        all_pitts = Pitt.objects.filter(user=user).order_by('-created_at')
+        current_page = Paginator(all_pitts, PITTS_ON_PAGE)
+        page = request.GET.get('page')
+        res['id'] = user.id
+        res['profile'] = user.profile
+        if user != logged_user:
+            res['flag'] = bool(Subscription.objects.filter(follower=logged_user, followed=user, ))
+        try:
+            res['pitts'] = PittsData(current_page.page(page).object_list, many=True).data
+        except PageNotAnInteger:
+            res['pitts'] = PittsData(current_page.page(1).object_list, many=True).data
+        except EmptyPage:
+            res['pitts'] = PittsData(current_page.page(current_page.num_pages).object_list, many=True).data
+        return res
