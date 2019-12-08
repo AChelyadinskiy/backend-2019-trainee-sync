@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from drf_yasg import openapi

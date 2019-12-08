@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from typing import Optional
+
 from django.db import models
 
 from pitter.models.base import BaseModel
@@ -23,10 +26,10 @@ class User(BaseModel):
         :param password: Пароль
         :return:
         """
-        return User.objects.create(login=login, salt=salt, password=gen_password(password, salt),)
+        return User.objects.create(login=login, salt=salt, password=gen_password(password, salt), )
 
     @staticmethod
-    def get_user(login: str = None, password: str = None, user_id: str = None) -> User:
+    def get_user(login: str = '', password: str = '', user_id: str = '') -> Optional[User]:
         """
         Находит пользователя по логину или по id или по логину и паролю
         :param user_id: Идентификатор пользователя

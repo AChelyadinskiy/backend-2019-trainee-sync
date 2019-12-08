@@ -25,7 +25,8 @@ class Pitt(BaseModel):
         :param audio_file_transcription: Распознанный текст
         :return:
         """
-        return Pitt.objects.create(user=user, audio_file=audio_file, audio_file_transcription=audio_file_transcription,)
+        return Pitt.objects.create(user=user, audio_file=audio_file,
+                                   audio_file_transcription=audio_file_transcription, )
 
     @staticmethod
     def get_pitt(pitt_id: str) -> Optional[Pitt]:
@@ -35,10 +36,11 @@ class Pitt(BaseModel):
         :return:
         """
         try:
-            res = Pitt.objects.get(id=pitt_id)
+            res: Pitt = Pitt.objects.get(id=pitt_id)
+            return res
         except Pitt.DoesNotExist:
             raise PittNotFound
-        return res
+
 
 
 @receiver(pre_delete, sender=Pitt)

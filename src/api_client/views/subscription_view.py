@@ -29,7 +29,7 @@ class SubscriptionView(APIView):
         operation_description='Управление подпиской в сервисе Pitter',
     )
     @access_token_required
-    def post(cls, request) -> Dict[str, str]:
+    def post(cls, request) -> Dict[str, bool]:
         """
         Запрос на подписку/удаление подписки
         :param request:

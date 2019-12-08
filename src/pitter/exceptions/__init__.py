@@ -1,3 +1,5 @@
+from typing import Type
+
 from rest_framework import serializers
 from rest_framework.exceptions import APIException
 
@@ -14,13 +16,13 @@ class PitterException(APIException):
     default_detail = 'Что-то пошло не так'
     default_code = 'ServerError'
 
-    def __init__(self, message, error_code, status_code=500):
+    def __init__(self, message, error_code, status_code=500) -> None:
         detail = message
         super().__init__(detail, error_code)
         self.status_code = status_code
 
     @staticmethod
-    def get_exception_serializer():
+    def get_exception_serializer() -> Type[ExceptionResponse]:
         """
 
         :return:

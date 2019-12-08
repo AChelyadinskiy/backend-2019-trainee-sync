@@ -12,7 +12,7 @@ def gen_password(password: str, salt: str) -> str:
     return '%s$%s' % (salt, hashed_password)
 
 
-def check_password(raw_password, enc_password):
+def check_password(raw_password: str, enc_password: str) -> bool:
     """
     Проверяет достоверность пароля
     :param raw_password: Пароль
