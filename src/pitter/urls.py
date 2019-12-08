@@ -15,6 +15,7 @@ SchemaView = get_schema_view(
 API_V1_URLS = [
     path('pitt', views.PittView.as_view(), name='pitt'),
     path('pitt/<str:pitt_id>', views.PittDeleteView.as_view(), name='delete_pitt'),
+    path('feed', views.FeedView.as_view(), name='pitts'),
     path('user', views.UserView.as_view(), name='user'),
     path('users/all', views.UsersView.as_view(), name='users'),
     path('users', views.UsersSearchView.as_view(), name='users_search'),

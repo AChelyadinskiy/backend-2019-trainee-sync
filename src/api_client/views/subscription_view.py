@@ -35,14 +35,14 @@ class SubscriptionView(APIView):
         :param request:
         :return:
         """
-        user_id = getattr(request, 'user_id', None)
-        user = User.get_user(user_id=user_id)
-        follower_id = request.data['follower_id']
+        follower_id = getattr(request, 'user_id', None)
         follower = User.get_user(user_id=follower_id)
-        if not follower:
+        followed_id = request.data['followed_id']
+        followed = User.get_user(user_id=followed_id)
+        if not followed:
             raise UserNotFound
         try:
-            sub = Subscription.objects.get(user=user, follower_id=follower_id, )
+            sub = Subscription.objects.get(follower=follower, followed=followed, )
         except Subscription.DoesNotExist:
             sub = None
         if sub:
@@ -50,8 +50,8 @@ class SubscriptionView(APIView):
             flag = False
         else:
             Subscription.create_subscription(
-                user=user,
-                follower_id=follower_id,
+                follower=follower,
+                followed=followed,
             )
             flag = True
-        return dict(follower_id=follower_id, flag=flag, )
+        return dict(followed_id=followed_id, flag=flag, )

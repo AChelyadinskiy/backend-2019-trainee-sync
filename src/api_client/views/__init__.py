@@ -5,6 +5,7 @@ from .user_view import UserView
 from .auth_view import AuthView
 from .users_view import UsersView, UsersSearchView
 from .subscription_view import SubscriptionView
+from .feed_view import FeedView
 
 __all__: Sequence[str] = [
     'PittView',
@@ -14,4 +15,5 @@ __all__: Sequence[str] = [
     'UsersView',
     'SubscriptionView',
     'UsersSearchView',
+    'FeedView',
 ]
