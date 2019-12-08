@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from drf_yasg import openapi
@@ -49,7 +49,7 @@ class UsersView(APIView):
         res = {}
         all_users = User.objects.all().order_by('login')
         current_page = Paginator(all_users, USERS_ON_PAGE)
-        page = request.GET.get('page')
+        page: int = request.GET.get('page')
         try:
             res['users'] = UsersData(current_page.page(page).object_list, many=True).data
         except PageNotAnInteger:

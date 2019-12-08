@@ -39,7 +39,7 @@ class SubscriptionView(APIView):
         follower = User.get_user(user_id=follower_id)
         followed_id = request.data['followed_id']
         followed = User.get_user(user_id=followed_id)
-        if not followed:
+        if not followed or follower == followed:
             raise UserNotFound
         try:
             sub = Subscription.objects.get(follower=follower, followed=followed,)

@@ -59,7 +59,6 @@ class UserView(APIView):
         login: str = request.data['login']
         password: str = request.data['password']
         salt: str = uuid4().hex
-
         user = User.get_user(login=login)
         if user:
             raise exceptions.UserDuplicateError
@@ -86,7 +85,7 @@ class UserView(APIView):
         :param request:
         :return:
         """
-        user_id = getattr(request, 'user_id', None)
+        user_id: str = getattr(request, 'user_id', None)
         user = User.get_user(user_id=user_id)
         if not user:
             raise exceptions.UserNotFound
@@ -115,8 +114,8 @@ class UserView(APIView):
         :param request:
         :return:
         """
-        update_info = request.data
-        user_id = getattr(request, 'user_id', None)
+        update_info: dict = request.data
+        user_id: str = getattr(request, 'user_id', None)
         user = User.get_user(user_id=user_id)
         if update_info.get('password', None):
             update_info['password'] = gen_password(update_info.get('password'), user.salt)
@@ -146,13 +145,13 @@ class UserView(APIView):
         :return:
         """
         res = {}
-        logged_user_id = getattr(request, 'user_id', None)
+        logged_user_id: str = getattr(request, 'user_id', None)
         logged_user = User.get_user(user_id=logged_user_id)
-        user_id = request.GET.get('id')
+        user_id: str = request.GET.get('id')
         user = User.get_user(user_id=user_id)
         all_pitts = Pitt.objects.filter(user=user).order_by('-created_at')
         current_page = Paginator(all_pitts, PITTS_ON_PAGE)
-        page = request.GET.get('page')
+        page: int = request.GET.get('page')
         res['id'] = user.id
         res['profile'] = user.profile
         if user != logged_user:

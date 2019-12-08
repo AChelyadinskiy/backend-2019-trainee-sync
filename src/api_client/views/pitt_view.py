@@ -44,8 +44,8 @@ class PittView(APIView):
         :param request:
         :return:
         """
-        user_id = getattr(request, 'user_id', None)
-        audio_file = b64encode(request.data['audio_file'].read())
+        user_id: str = getattr(request, 'user_id', None)
+        audio_file: bytes = b64encode(request.data['audio_file'].read())
         payload = {'speech': audio_file}
         request_to_service = requests.post(GOOGLE_STT_API_URL, payload)
         try:

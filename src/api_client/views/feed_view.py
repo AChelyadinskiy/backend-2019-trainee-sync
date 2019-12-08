@@ -42,11 +42,11 @@ class FeedView(APIView):
         :return:
         """
         res = {}
-        user_id = getattr(request, 'user_id', None)
+        user_id: str = getattr(request, 'user_id', None)
         follower = User.get_user(user_id=user_id)
         all_pitts = Pitt.objects.filter(Q(user__followed__follower=follower) | Q(user=follower)).order_by('-created_at')
         current_page = Paginator(all_pitts, PITTS_ON_PAGE)
-        page = request.GET.get('page')
+        page: int = request.GET.get('page')
         try:
             res['feed'] = PittsData(current_page.page(page).object_list, many=True).data
         except PageNotAnInteger:

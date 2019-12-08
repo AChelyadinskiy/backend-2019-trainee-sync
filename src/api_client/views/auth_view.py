@@ -35,8 +35,8 @@ class AuthView(APIView):
         :param request:
         :return:
         """
-        login = request.data['login']
-        password = request.data['password']
+        login: str = request.data['login']
+        password: str = request.data['password']
         user = User.get_user(login=login, password=password)
         if not user:
             raise UserNotFound
