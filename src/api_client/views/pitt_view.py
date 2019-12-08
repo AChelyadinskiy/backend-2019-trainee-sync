@@ -55,8 +55,8 @@ class PittView(APIView):
         user = User.get_user(user_id=user_id)
         if not user:
             raise Forbidden(message="Вы не авторизованы")
-        pitt = Pitt.create_pitt(user=user, audio_file=request.data['audio_file'], audio_file_transcription=result,)
-        return dict(id=pitt.id,)
+        pitt = Pitt.create_pitt(user=user, audio_file=request.data['audio_file'], audio_file_transcription=result, )
+        return dict(id=pitt.id, )
 
 
 class PittDeleteView(APIView):
@@ -83,5 +83,10 @@ class PittDeleteView(APIView):
         :return:
         """
         pitt = Pitt.get_pitt(pitt_id)
-        pitt.delete()
-        return dict(deleted_id=pitt_id,)
+        user_id: str = getattr(request, 'user_id', None)
+        user = User.get_user(user_id=user_id)
+        if pitt.user == user:
+            pitt.delete()
+        else:
+            raise Forbidden
+        return dict(deleted_id=pitt_id, )

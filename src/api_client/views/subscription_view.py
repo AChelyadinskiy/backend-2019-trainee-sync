@@ -40,7 +40,7 @@ class SubscriptionView(APIView):
         followed_id = request.data['followed_id']
         followed = User.get_user(user_id=followed_id)
         if not followed or follower == followed:
-            raise UserNotFound
+            raise UserNotFound("Невозможно подписаться")
         try:
             sub = Subscription.objects.get(follower=follower, followed=followed,)
         except Subscription.DoesNotExist:
