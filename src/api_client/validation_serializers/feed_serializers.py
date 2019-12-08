@@ -12,4 +12,9 @@ class PittsData(serializers.ModelSerializer):
 
     class Meta:
         model = Pitt
-        fields = ('profile', 'audio_file', 'audio_file_transcription', 'created_at',)
+        fields = (
+            'profile',
+            'audio_file',
+            'audio_file_transcription',
+            'created_at',
+        )

@@ -23,11 +23,7 @@ class User(BaseModel):
         :param password: Пароль
         :return:
         """
-        return User.objects.create(
-            login=login,
-            salt=salt,
-            password=gen_password(password, salt),
-        )
+        return User.objects.create(login=login, salt=salt, password=gen_password(password, salt),)
 
     @staticmethod
     def get_user(login: str = None, password: str = None, user_id: str = None) -> User:

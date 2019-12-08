@@ -6,26 +6,20 @@ from drf_yasg.openapi import Parameter
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
-from api_client.validation_serializers.users_serializers import UsersResponse, UsersData, UsersSearchResponse, \
-    UsersSearchData
+from api_client.validation_serializers.users_serializers import (
+    UsersResponse,
+    UsersData,
+    UsersSearchResponse,
+    UsersSearchData,
+)
 from pitter.decorators import response_dict_serializer
 from pitter import exceptions
 from pitter.models.user import User
 from pitter.utils.auth import access_token_required
 
-USERS_PAGE_PARAM = Parameter(
-    in_=openapi.IN_QUERY,
-    name='page',
-    required=False,
-    type=openapi.TYPE_INTEGER,
-)
+USERS_PAGE_PARAM = Parameter(in_=openapi.IN_QUERY, name='page', required=False, type=openapi.TYPE_INTEGER,)
 
-USERS_LOGIN_PARAM = Parameter(
-    in_=openapi.IN_QUERY,
-    name='login',
-    required=True,
-    type=openapi.TYPE_STRING,
-)
+USERS_LOGIN_PARAM = Parameter(in_=openapi.IN_QUERY, name='login', required=True, type=openapi.TYPE_STRING,)
 
 USERS_ON_PAGE = 5
 

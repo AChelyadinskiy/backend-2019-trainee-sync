@@ -12,12 +12,9 @@ class Subscription(BaseModel):
     @staticmethod
     def create_subscription(follower: User, followed: User) -> Subscription:
         """
-        Создает подписку на follower_id
+        Создает подписку на follower на followed
         :param follower: Пользователь, который подписывается
         :param followed: Пользователь, на которого подписываются
         :return:
         """
-        return Subscription.objects.create(
-            follower=follower,
-            followed=followed,
-        )
+        return Subscription.objects.create(follower=follower, followed=followed,)

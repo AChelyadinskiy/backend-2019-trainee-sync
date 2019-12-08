@@ -42,7 +42,7 @@ class AuthView(APIView):
             raise UserNotFound
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=TOKEN_LIFE_TIME_SEC),
-            'user_id': user.id
+            'user_id': user.id,
         }
         token = create_token(payload).decode("utf-8")
-        return dict(login=login, token=token, )
+        return dict(login=login, token=token,)

@@ -10,8 +10,14 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
 from api_client.validation_serializers.feed_serializers import PittsData
-from api_client.validation_serializers.user_serializers import UserPostRequest, UserPostResponse, \
-    UserDeleteResponse, UserPatchResponse, UserPatchRequest, UserGetResponse
+from api_client.validation_serializers.user_serializers import (
+    UserPostRequest,
+    UserPostResponse,
+    UserDeleteResponse,
+    UserPatchResponse,
+    UserPatchRequest,
+    UserGetResponse,
+)
 from pitter import exceptions
 from pitter.decorators import request_post_serializer, response_dict_serializer
 from pitter.models.pitt import Pitt
@@ -20,19 +26,9 @@ from pitter.models.user import User
 from pitter.utils.auth import access_token_required
 from pitter.utils.password import gen_password
 
-PITTS_PAGE_PARAM = Parameter(
-    in_=openapi.IN_QUERY,
-    name='page',
-    required=False,
-    type=openapi.TYPE_INTEGER,
-)
+PITTS_PAGE_PARAM = Parameter(in_=openapi.IN_QUERY, name='page', required=False, type=openapi.TYPE_INTEGER,)
 
-USER_ID_PARAM = Parameter(
-    in_=openapi.IN_QUERY,
-    name='id',
-    required=True,
-    type=openapi.TYPE_STRING,
-)
+USER_ID_PARAM = Parameter(in_=openapi.IN_QUERY, name='id', required=True, type=openapi.TYPE_STRING,)
 
 PITTS_ON_PAGE = 25
 
@@ -67,12 +63,8 @@ class UserView(APIView):
         user = User.get_user(login=login)
         if user:
             raise exceptions.UserDuplicateError
-        res = User.create_user(
-            login=login,
-            password=password,
-            salt=salt,
-        )
-        return dict(id=res.id, )
+        res = User.create_user(login=login, password=password, salt=salt,)
+        return dict(id=res.id,)
 
     @classmethod
     @response_dict_serializer(UserDeleteResponse)
@@ -99,7 +91,7 @@ class UserView(APIView):
         if not user:
             raise exceptions.UserNotFound
         user.delete()
-        return dict(deleted_id=user_id, )
+        return dict(deleted_id=user_id,)
 
     @classmethod
     @request_post_serializer(UserPatchRequest)
@@ -164,7 +156,7 @@ class UserView(APIView):
         res['id'] = user.id
         res['profile'] = user.profile
         if user != logged_user:
-            res['flag'] = bool(Subscription.objects.filter(follower=logged_user, followed=user, ))
+            res['flag'] = bool(Subscription.objects.filter(follower=logged_user, followed=user,))
         try:
             res['pitts'] = PittsData(current_page.page(page).object_list, many=True).data
         except PageNotAnInteger:

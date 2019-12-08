@@ -14,12 +14,7 @@ from pitter.models.pitt import Pitt
 from pitter.models.user import User
 from pitter.utils.auth import access_token_required
 
-PITTS_PAGE_PARAM = Parameter(
-    in_=openapi.IN_QUERY,
-    name='page',
-    required=False,
-    type=openapi.TYPE_INTEGER,
-)
+PITTS_PAGE_PARAM = Parameter(in_=openapi.IN_QUERY, name='page', required=False, type=openapi.TYPE_INTEGER,)
 
 PITTS_ON_PAGE = 25
 

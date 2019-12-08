@@ -42,7 +42,7 @@ class SubscriptionView(APIView):
         if not followed:
             raise UserNotFound
         try:
-            sub = Subscription.objects.get(follower=follower, followed=followed, )
+            sub = Subscription.objects.get(follower=follower, followed=followed,)
         except Subscription.DoesNotExist:
             sub = None
         if sub:
@@ -50,8 +50,7 @@ class SubscriptionView(APIView):
             flag = False
         else:
             Subscription.create_subscription(
-                follower=follower,
-                followed=followed,
+                follower=follower, followed=followed,
             )
             flag = True
-        return dict(followed_id=followed_id, flag=flag, )
+        return dict(followed_id=followed_id, flag=flag,)
