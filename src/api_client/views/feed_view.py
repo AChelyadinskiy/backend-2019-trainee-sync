@@ -36,8 +36,8 @@ class FeedView(APIView):
             404: exceptions.ExceptionResponse,
             500: exceptions.ExceptionResponse,
         },
-        operation_summary='Список всех питов пользователя и его подписок',
-        operation_description='Список всех питов пользователя и его подписок в сервисе Pitter',
+        operation_summary='Список всех питтов пользователя и его подписок',
+        operation_description='Список всех питтов пользователя и его подписок в сервисе Pitter',
     )
     @access_token_required
     def get(cls, request) -> Dict[str, str]:

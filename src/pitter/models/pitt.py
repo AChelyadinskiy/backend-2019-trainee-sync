@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
+from pitter.exceptions import PittNotFound
 from pitter.models.base import BaseModel
 from pitter.models.user import User
 
@@ -37,7 +38,7 @@ class Pitt(BaseModel):
         try:
             res = Pitt.objects.get(id=pitt_id)
         except Pitt.DoesNotExist:
-            res = None
+            raise PittNotFound
         return res
 
 

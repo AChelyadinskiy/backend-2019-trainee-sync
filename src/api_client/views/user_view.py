@@ -92,7 +92,6 @@ class UserView(APIView):
         """
         Удаляет учетную запись пользователя
         :param request:
-        :param user_id:
         :return:
         """
         user_id = getattr(request, 'user_id', None)
