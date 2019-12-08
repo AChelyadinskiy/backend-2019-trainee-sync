@@ -17,7 +17,7 @@ from pitter.utils.auth import access_token_required
 PITTS_PAGE_PARAM = Parameter(
     in_=openapi.IN_QUERY,
     name='page',
-    required=True,
+    required=False,
     type=openapi.TYPE_INTEGER,
 )
 
