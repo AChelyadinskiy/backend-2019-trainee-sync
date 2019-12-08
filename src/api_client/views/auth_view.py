@@ -18,7 +18,7 @@ class AuthView(APIView):
     @request_post_serializer(AuthPostRequest)
     @response_dict_serializer(AuthPostResponse)
     @swagger_auto_schema(
-        tags=['Pitter: SignIn'],
+        tags=['Pitter: Authorization'],
         request_body=AuthPostRequest,
         responses={
             200: AuthPostResponse,
@@ -35,14 +35,14 @@ class AuthView(APIView):
         :param request:
         :return:
         """
-        login = request.data['login']
-        password = request.data['password']
+        login: str = request.data['login']
+        password: str = request.data['password']
         user = User.get_user(login=login, password=password)
         if not user:
             raise UserNotFound
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=TOKEN_LIFE_TIME_SEC),
-            'user_id': user.id
+            'user_id': user.id,
         }
         token = create_token(payload).decode("utf-8")
-        return dict(login=login, token=token, )
+        return dict(login=login, token=token,)

@@ -17,7 +17,7 @@ class SubscriptionView(APIView):
     @request_post_serializer(SubscriptionPostRequest)
     @response_dict_serializer(SubscriptionPostResponse)
     @swagger_auto_schema(
-        tags=['Pitter: Follower'],
+        tags=['Pitter: Subscription'],
         request_body=SubscriptionPostRequest,
         responses={
             200: SubscriptionPostResponse,
@@ -29,15 +29,20 @@ class SubscriptionView(APIView):
         operation_description='Управление подпиской в сервисе Pitter',
     )
     @access_token_required
-    def post(cls, request) -> Dict[str, str]:
-        user_id = getattr(request, 'user_id', None)
-        user = User.get_user(user_id=user_id)
-        follower_id = request.data['follower_id']
+    def post(cls, request) -> Dict[str, bool]:
+        """
+        Запрос на подписку/удаление подписки
+        :param request:
+        :return:
+        """
+        follower_id = getattr(request, 'user_id', None)
         follower = User.get_user(user_id=follower_id)
-        if not follower:
-            raise UserNotFound
+        followed_id = request.data['followed_id']
+        followed = User.get_user(user_id=followed_id)
+        if not followed or follower == followed:
+            raise UserNotFound("Невозможно подписаться")
         try:
-            sub = Subscription.objects.get(user=user, follower_id=follower_id, )
+            sub = Subscription.objects.get(follower=follower, followed=followed,)
         except Subscription.DoesNotExist:
             sub = None
         if sub:
@@ -45,8 +50,7 @@ class SubscriptionView(APIView):
             flag = False
         else:
             Subscription.create_subscription(
-                user=user,
-                follower_id=follower_id,
+                follower=follower, followed=followed,
             )
             flag = True
-        return dict(follower_id=follower_id, flag=flag, )
+        return dict(followed_id=followed_id, flag=flag,)

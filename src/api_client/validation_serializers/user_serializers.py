@@ -7,11 +7,11 @@ class UserPostRequest(serializers.Serializer):
 
 
 class UserPostResponse(serializers.Serializer):
-    id = serializers.CharField(required=True, label='id пользователя')
+    id = serializers.CharField(required=True, label='Идентификатор пользователя')
 
 
 class UserDeleteResponse(serializers.Serializer):
-    deleted_id = serializers.CharField(required=True, label='id пользователя')
+    deleted_id = serializers.CharField(required=True, label='Идентификатор пользователя')
 
 
 class UserPatchRequest(serializers.Serializer):
@@ -24,3 +24,10 @@ class UserPatchRequest(serializers.Serializer):
 
 class UserPatchResponse(serializers.Serializer):
     updated_fields = serializers.CharField(required=True, label='Логин', max_length=256)
+
+
+class UserGetResponse(serializers.Serializer):
+    id = serializers.CharField(required=True, label='Идентификатор пользователя', max_length=256)
+    profile = serializers.CharField(required=True, label='Профиль', max_length=256)
+    flag = serializers.BooleanField(required=False, label='Флаг подписки')
+    pitts = serializers.ListField(required=True, label='Список питтов')

@@ -6,18 +6,15 @@ from pitter.models.user import User
 
 
 class Subscription(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    follower_id = models.CharField(max_length=256)
+    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
+    followed = models.ForeignKey(User, related_name='followed', on_delete=models.CASCADE)
 
     @staticmethod
-    def create_subscription(user: User, follower_id: str) -> Subscription:
+    def create_subscription(follower: User, followed: User) -> Subscription:
         """
-        Создает подписку на follower_id
-        :param user: Пользователь, который подписывается
-        :param follower_id: Пользователь, на которого подписываются
+        Создает подписку на follower на followed
+        :param follower: Пользователь, который подписывается
+        :param followed: Пользователь, на которого подписываются
         :return:
         """
-        return Subscription.objects.create(
-            user=user,
-            follower_id=follower_id,
-        )
+        return Subscription.objects.create(follower=follower, followed=followed,)
